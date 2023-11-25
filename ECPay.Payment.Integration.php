@@ -439,7 +439,7 @@ class ECPay_AllInOne {
     public $SendExtend = 'SendExtend';
     public $Query = 'Query';
     public $Action = 'Action';
-    // yuna新增4屬性
+    // yuna新增以下4屬性
     public $Capture = 'Capture';
     public $TradeNo = 'TradeNo';
     public $Trade = 'Trade';
@@ -1363,50 +1363,50 @@ Abstract class ECPay_Verification
         if (!array_key_exists('InvType', $arExtend)) array_push($arErrors, "InvType is required.");
 
         //商品相關整理
-        if(!array_key_exists('InvoiceItems', $arExtend)){
-            array_push($arErrors, "Invoice Goods information not found.");
-        }else{
-            $InvSptr = '|';
-            $tmpItemName = array();
-            $tmpItemCount = array();
-            $tmpItemWord = array();
-            $tmpItemPrice = array();
-            $tmpItemTaxType = array();
-            foreach ($arExtend['InvoiceItems'] as $tmpItemInfo) {
-                if (mb_strlen($tmpItemInfo['Name'], 'UTF-8') > 0) {
-                    array_push($tmpItemName, $tmpItemInfo['Name']);
-                }
-                if (strlen($tmpItemInfo['Count']) > 0) {
-                    array_push($tmpItemCount, $tmpItemInfo['Count']);
-                }
-                if (mb_strlen($tmpItemInfo['Word'], 'UTF-8') > 0) {
-                    array_push($tmpItemWord, $tmpItemInfo['Word']);
-                }
-                if (strlen($tmpItemInfo['Price']) > 0) {
-                    array_push($tmpItemPrice, $tmpItemInfo['Price']);
-                }
-                if (strlen($tmpItemInfo['TaxType']) > 0) {
-                    array_push($tmpItemTaxType, $tmpItemInfo['TaxType']);
-                }
-            }
+        // if(!array_key_exists('InvoiceItems', $arExtend)){
+        //     array_push($arErrors, "Invoice Goods information not found.");
+        // }else{
+        //     $InvSptr = '|';
+        //     $tmpItemName = array();
+        //     $tmpItemCount = array();
+        //     $tmpItemWord = array();
+        //     $tmpItemPrice = array();
+        //     $tmpItemTaxType = array();
+        //     foreach ($arExtend['InvoiceItems'] as $tmpItemInfo) {
+        //         if (mb_strlen($tmpItemInfo['Name'], 'UTF-8') > 0) {
+        //             array_push($tmpItemName, $tmpItemInfo['Name']);
+        //         }
+        //         if (strlen($tmpItemInfo['Count']) > 0) {
+        //             array_push($tmpItemCount, $tmpItemInfo['Count']);
+        //         }
+        //         if (mb_strlen($tmpItemInfo['Word'], 'UTF-8') > 0) {
+        //             array_push($tmpItemWord, $tmpItemInfo['Word']);
+        //         }
+        //         if (strlen($tmpItemInfo['Price']) > 0) {
+        //             array_push($tmpItemPrice, $tmpItemInfo['Price']);
+        //         }
+        //         if (strlen($tmpItemInfo['TaxType']) > 0) {
+        //             array_push($tmpItemTaxType, $tmpItemInfo['TaxType']);
+        //         }
+        //     }
 
-            if ($arExtend['TaxType'] == ECPay_TaxType::Mix) {
-                if (in_array(ECPay_TaxType::Dutiable, $tmpItemTaxType) and in_array(ECPay_TaxType::Free, $tmpItemTaxType)) {
-                    // Do nothing
-                }  else {
-                    $tmpItemTaxType = array();
-                }
-            }
-            if ((count($tmpItemName) + count($tmpItemCount) + count($tmpItemWord) + count($tmpItemPrice) + count($tmpItemTaxType)) == (count($tmpItemName) * 5)) {
-                $arExtend['InvoiceItemName']    = implode($InvSptr, $tmpItemName);
-                $arExtend['InvoiceItemCount']   = implode($InvSptr, $tmpItemCount);
-                $arExtend['InvoiceItemWord']    = implode($InvSptr, $tmpItemWord);
-                $arExtend['InvoiceItemPrice']   = implode($InvSptr, $tmpItemPrice);
-                $arExtend['InvoiceItemTaxType'] = implode($InvSptr, $tmpItemTaxType);
-            }
+        //     if ($arExtend['TaxType'] == ECPay_TaxType::Mix) {
+        //         if (in_array(ECPay_TaxType::Dutiable, $tmpItemTaxType) and in_array(ECPay_TaxType::Free, $tmpItemTaxType)) {
+        //             // Do nothing
+        //         }  else {
+        //             $tmpItemTaxType = array();
+        //         }
+        //     }
+        //     if ((count($tmpItemName) + count($tmpItemCount) + count($tmpItemWord) + count($tmpItemPrice) + count($tmpItemTaxType)) == (count($tmpItemName) * 5)) {
+        //         $arExtend['InvoiceItemName']    = implode($InvSptr, $tmpItemName);
+        //         $arExtend['InvoiceItemCount']   = implode($InvSptr, $tmpItemCount);
+        //         $arExtend['InvoiceItemWord']    = implode($InvSptr, $tmpItemWord);
+        //         $arExtend['InvoiceItemPrice']   = implode($InvSptr, $tmpItemPrice);
+        //         $arExtend['InvoiceItemTaxType'] = implode($InvSptr, $tmpItemTaxType);
+        //     }
 
-            unset($arExtend['InvoiceItems']);
-        }
+        //     unset($arExtend['InvoiceItems']);
+        // }
 
         $encode_fields = array(
                 'CustomerName',
