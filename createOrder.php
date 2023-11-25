@@ -4,6 +4,12 @@ if (isset($_POST['productInfoArray'])) {
   $cartTotal = $_POST['carttotal'];
   $productInfoArray = $_POST['productInfoArray'];
 }
+// $productInfoArray 結構說明
+// Array ( 
+//   [0] => Array ( [品名] => [單價] => [數量] => [小計] => ) 
+//   [1] => Array ( [品名] => 智能掃拖機器人 [單價] => 500 [數量] => 1 [小計] => 500 ) 
+//   [2] => Array ( [品名] => 智能空拍機 [單價] => 800 [數量] => 2 [小計] => 1600 ) 
+//   )
 
 $my_TradeDesc = "測試交易描述";
 

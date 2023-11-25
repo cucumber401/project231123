@@ -3,9 +3,45 @@ include('./ECPay.Payment.Integration.php');
 
 $obj = new ECPay_AllInOne();
 
+/*
 //可以試著先印出接受到的POST中所有的資訊來查看
 print_r($_POST, true);
+*/
 
+// 寫進DB
+include("./conn/connMysql.php");
+
+$sql_query = "INSERT INTO orders (o_id, m_id, o_detail, o_total, o_trade_date, o_pay_date) 
+    VALUES (?, ?, ?, ?, ?, ?)";
+// 用prepare方法將預備語法化為stmt物件
+$stmt = $db_link->prepare($sql_query);
+
+$post_data = print_r($_POST, true);
+// 用bind_param方法綁定變數為預備語法中的參數
+$stmt->bind_param(
+  "ssssss",
+  $_POST['MerchantTradeNo'],
+  $_POST['RtnCode'],
+  $post_data,
+  $_POST['TradeAmt'],
+  $_POST['TradeDate'],
+  $_POST['TradeDate']
+);
+$stmt->execute();
+$stmt->close();
+$db_link->close();
+
+// 加入參數(測試版)
+$arParameters = $_POST;
+$ECPay_MerchantID = "2000132";
+$ECPay_HashKey = "5294y06JbISpM5x9";
+$ECPay_HashIV = "v77hoKGq4kWxNNIS";
+
+//進行驗證碼檢查，將POST陣列, HashKey, HashIV, 以及當初設定的加密方式($obj->EncryptType = "1";)作為參數，
+//傳給 ECPay_CheckMacValue::generate 來產生驗證碼
+$CheckMacValue = ECPay_CheckMacValue::generate($arParameters, $ECPay_HashKey, $ECPay_HashIV, 1);
+//若$_POST['RtnCode'] == 1表示刷卡成功
+//比對傳來的POST中的驗證碼與這邊剛計算出來的驗證碼是否相同，相同才進行後續處理，若不同，則表示這份POST可能是偽造的，或是錯誤的交易紀錄
 if ($_POST['RtnCode'] == '1' && $CheckMacValue == $_POST['CheckMacValue']) {
 
   /*
@@ -14,7 +50,9 @@ if ($_POST['RtnCode'] == '1' && $CheckMacValue == $_POST['CheckMacValue']) {
 
   //最後一定要回傳這一行，告知綠界說：「我的商店網站確實有收到綠界的通知了！」才算完成。
   echo '1|OK';
+  header("Location:./manage_orders.php");
 }
+
 
 ?>
 
