@@ -72,8 +72,8 @@ $result = $db_link->query($sql_query);
             <td class="py-2"><?php echo $i_result['o_total'] ?></td>
             <td class="py-2"><?php echo $i_result['o_trade_date'] ?></td>
             <td class="py-2">
-              <a href="./manage_orders_edit.php?a_id=<?php echo $i_result['o_id'] ?>"><button class="btn btn-secondary rounded-4 py-0 px-1"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
-              <a href="./manage_orders_del.php?a_id=<?php echo $i_result['o_id'] ?>"><button class="btn btn-light rounded-4 py-0 px-1">X</button></a>
+              <a href="./manage_orders_edit.php?o_id=<?php echo $i_result['o_id'] ?>"><button class="btn btn-secondary rounded-4 py-0 px-1"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+              <a href="./manage_orders_del.php?o_id=<?php echo $i_result['o_id'] ?>"><button class="btn btn-light rounded-4 py-0 px-1">X</button></a>
             </td>
           </tr>
         <?php }; ?>

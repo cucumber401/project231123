@@ -3,11 +3,11 @@ include("./conn/connMysql.php");
 // 判斷action是否存在且有值
 if (isset($_GET["action"]) && $_GET["action"] == "del") {
   /* 方法2 */
-  $sql_query = "DELETE FROM orders WHERE a_id=?";
+  $sql_query = "DELETE FROM orders WHERE o_id=?";
   // 用prepare方法將預備語法化為stmt物件
   $stmt = $db_link->prepare($sql_query);
   // 用bind_param方法綁定變數為預備語法中的參數
-  $stmt->bind_param("i", $_GET["a_id"]);
+  $stmt->bind_param("i", $_GET["o_id"]);
   // 中間有時候會加一些while跑資料顯示
   $stmt->execute();
   $stmt->close();
@@ -20,13 +20,13 @@ if (isset($_GET["action"]) && $_GET["action"] == "del") {
   
   // header("Location:./manage_orders.php");
 }
-// a_sub_title, a_title, a_content, a_img, a_text_style
-$sql_select = "SELECT a_id, a_sub_title, a_title, a_content, a_img, a_text_style 
-FROM orders WHERE a_id=?";
+// o_id, m_id, o_detail, o_total, o_trade_date, o_pay_date
+$sql_select = "SELECT o_id, m_id, o_detail, o_total, o_trade_date, o_pay_date 
+FROM orders WHERE o_id=?";
 $stmt = $db_link->prepare($sql_select);
-$stmt->bind_param("i", $_GET["a_id"]);
+$stmt->bind_param("s", $_GET["o_id"]);
 $stmt->execute();
-$stmt->bind_result($a_id, $a_sub_title, $a_title, $a_content, $a_img, $a_text_style);
+$stmt->bind_result($o_id, $m_id, $o_detail, $o_total, $o_trade_date, $o_pay_date);
 $stmt->fetch();
 
 ?>
@@ -72,45 +72,49 @@ $stmt->fetch();
       <hr><br>
       <form action="./manage_orders_del.php" method="get">
         <div class="mb-3 row">
-          <label for="a_sub_title" class="offset-md-2 col-md-2 col-form-label">小標</label>
+          <label for="o_id" class="offset-md-2 col-md-2 col-form-label">訂單編號</label>
           <div class="col-md-6">
-            <input type="text" class="form-control" name="a_sub_title" id="a_sub_title" value="<?php echo $a_sub_title ?>" disabled readonly>
+            <input type="text" class="form-control" name="o_id" id="o_id" value="<?php echo $o_id ?>" disabled readonly>
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="a_title" class="offset-md-2 col-md-2 col-form-label">標題</label>
+          <label for="m_id" class="offset-md-2 col-md-2 col-form-label">會員編號</label>
           <div class="col-md-6">
-            <input type="text" class="form-control" name="a_title" id="a_title" value="<?php echo $a_title ?>" disabled readonly>
+            <input type="text" class="form-control" name="m_id" id="m_id" value="<?php echo $m_id ?>" disabled readonly>
+          </div>
+        </div>
+        
+        <div class="mb-3 row">
+          <label for="o_detail" class="offset-md-2 col-md-2 col-form-label">訂單細節</label>
+          <div class="col-md-6">
+            <textarea class="form-control" name="o_detail" id="o_detail" cols="50" rows="3" disabled readonly><?php echo $o_detail ?></textarea>
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="a_content" class="offset-md-2 col-md-2 col-form-label">內文</label>
+          <label for="o_total" class="offset-md-2 col-md-2 col-form-label">訂單總額</label>
           <div class="col-md-6">
-            <textarea class="form-control" name="a_content" id="a_content" cols="50" rows="3" disabled readonly><?php echo $a_content ?></textarea>
+            <input type="text" class="form-control" name="o_total" id="o_total" value="<?php echo $o_total ?>" disabled readonly>
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="a_img" class="offset-md-2 col-md-2 col-form-label">圖片</label>
+          <label for="o_trade_date" class="offset-md-2 col-md-2 col-form-label">訂單交易時間</label>
           <div class="col-md-6">
-          <?php if ($a_img) { ?>
-              <img style="height: 20px;" src="./photo/index/<?php echo $a_img ?>">
-            <?php echo $a_img;
-            } else { ?>
-            <input type="text" class="form-control" name="a_img" id="a_img" value="無圖片" disabled readonly>
-            <?php } ?>
+            <input type="date" class="form-control" name="o_trade_date" id="o_trade_date" value="<?php echo $o_trade_date ?>" disabled readonly>
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="a_text_style" class="offset-md-2 col-md-2 col-form-label">文字樣式</label>
+          <label for="o_pay_date" class="offset-md-2 col-md-2 col-form-label">訂單付款時間</label>
           <div class="col-md-6">
-            <textarea class="form-control" name="a_text_style" id="a_text_style" cols="50" rows="3" disabled readonly><?php echo $a_text_style ?></textarea>
+            <input type="date" class="form-control" name="o_pay_date" id="o_pay_date" value="<?php echo $o_pay_date ?>" disabled readonly>
           </div>
         </div>
+        
+        
         <br>
         <div class="mb-3 row">
           <div class="offset-md-3 col-md-6 text-center">
             <input type="hidden" name="action" value="del">
-            <input type="hidden" name="a_id" value="<?php echo $a_id ?>">
+            <input type="hidden" name="o_id" value="<?php echo $o_id ?>">
             <button class="btn btn-dark mx-4" type="submit">確定刪除</button>
             <a href="./manage_orders.php" class="btn btn-secondary mx-4">返　　回</a>
           </div>

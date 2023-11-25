@@ -3,18 +3,19 @@ include("./conn/connMysql.php");
 // 判斷action是否存在且有值
 if (isset($_POST["action"]) && $_POST["action"] == "add") {
 
-  $sql_query = "INSERT INTO orders (o_id, m_id, o_detail, o_total, o_date) 
-    VALUES (?, ?, ?, ?, ?)";
+  $sql_query = "INSERT INTO orders (o_id, m_id, o_detail, o_total, o_trade_date, o_pay_date) 
+    VALUES (?, ?, ?, ?, ?, ?)";
   // 用prepare方法將預備語法化為stmt物件
   $stmt = $db_link->prepare($sql_query);
   // 用bind_param方法綁定變數為預備語法中的參數
   $stmt->bind_param(
-    "sssss",
+    "ssssss",
     $_POST["o_id"],
     $_POST["m_id"],
     $_POST["o_detail"],
     $_POST["o_total"],
-    $_POST["o_date"]
+    $_POST["o_trade_date"],
+    $_POST["o_pay_date"]
   );
 
   // 中間有時候會加一些while跑資料顯示
@@ -62,7 +63,7 @@ if (isset($_POST["action"]) && $_POST["action"] == "add") {
       <div class="text-center">
         <h4>新增訂單紀錄</h4>
       </div>
-<!-- (o_id, m_id, o_detail, o_total, o_date)  -->
+<!-- (o_id, m_id, o_detail, o_total, o_trade_date, o_pay_date)  -->
       <hr><br>
       <form action="./manage_orders_add.php" method="post">
         <div class="mb-3 row">
@@ -90,9 +91,15 @@ if (isset($_POST["action"]) && $_POST["action"] == "add") {
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="o_date" class="offset-md-2 col-md-2 col-form-label">付款時間</label>
+          <label for="o_trade_date" class="offset-md-2 col-md-2 col-form-label">交易時間</label>
           <div class="col-md-6">
-            <input type="date" class="form-control" name="o_date" id="o_date">
+            <input type="date" class="form-control" name="o_trade_date" id="o_trade_date">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="o_pay_date" class="offset-md-2 col-md-2 col-form-label">付款時間</label>
+          <div class="col-md-6">
+            <input type="date" class="form-control" name="o_pay_date" id="o_pay_date">
           </div>
         </div>
 

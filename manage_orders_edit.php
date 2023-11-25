@@ -3,34 +3,23 @@ include("./conn/connMysql.php");
 // 判斷action是否存在且有值
 if (isset($_POST["action"]) && $_POST["action"] == "edit") {
 
-  // $a_img = ($_FILES["a_img"]["name"] ? $_FILES["a_img"]["name"] : $_POST["a_img_old"]);
-  if ($_FILES["a_img"]["name"]) {
-    $a_img = $_FILES["a_img"]["name"];
-    if ($_FILES["a_img"]["error"] == 0) {
-      move_uploaded_file($_FILES["a_img"]["tmp_name"], "./photo/index/" . $a_img);
-    } else {
-      echo '<script>alert("上傳失敗 !");</script>';
-      die("ERROR : Type" . $_FILES["a_img"]["error"]);
-    }
-  } else {
-    $a_img = $_POST["a_img_old"];
-  }
-
+  // o_id, m_id, o_detail, o_total, o_trade_date, o_pay_date
   $sql_query = "UPDATE orders 
-  SET a_sub_title=?, a_title=?, a_content=?, a_img=?, a_text_style=?
-  WHERE a_id=?";
+  SET o_id=?, m_id=?, o_detail=?, o_total=?, o_trade_date=?, o_pay_date=?
+  WHERE o_id=?";
   // 用prepare方法將預備語法化為stmt物件
   $stmt = $db_link->prepare($sql_query);
 
   // 用bind_param方法綁定變數為預備語法中的參數
   $stmt->bind_param(
-    "sssssi",
-    $_POST["a_sub_title"],
-    $_POST["a_title"],
-    $_POST["a_content"],
-    $a_img,
-    $_POST["a_text_style"],
-    $_POST["a_id"]
+    "sssssss",
+    $_POST["o_id"],
+    $_POST["m_id"],
+    $_POST["o_detail"],
+    $_POST["o_total"],
+    $_POST["o_trade_date"],
+    $_POST["o_pay_date"],
+    $_POST["o_id"]
   );
 
   // 中間有時候會加一些while跑資料顯示
@@ -46,12 +35,14 @@ if (isset($_POST["action"]) && $_POST["action"] == "edit") {
   // header("Location:./manage_orders.php");
 }
 
-$sql_select = "SELECT a_id, a_sub_title, a_title, a_content, a_img, a_text_style 
-FROM orders WHERE a_id=?";
+// o_id, m_id, o_detail, o_total, o_trade_date, o_pay_date
+
+$sql_select = "SELECT o_id, m_id, o_detail, o_total, o_trade_date, o_pay_date
+FROM orders WHERE o_id=?";
 $stmt = $db_link->prepare($sql_select);
-$stmt->bind_param("i", $_GET["a_id"]);
+$stmt->bind_param("s", $_GET["o_id"]);
 $stmt->execute();
-$stmt->bind_result($a_id, $a_sub_title, $a_title, $a_content, $a_img_old, $a_text_style);
+$stmt->bind_result($o_id, $m_id, $o_detail, $o_total, $o_trade_date, $o_pay_date);
 $stmt->fetch();
 
 ?>
@@ -92,48 +83,47 @@ $stmt->fetch();
       <hr><br>
       <form action="./manage_orders_edit.php" method="post" enctype="multipart/form-data">
         <div class="mb-3 row">
-          <label for="a_sub_title" class="offset-md-2 col-md-2 col-form-label">小標</label>
+          <label for="o_id" class="offset-md-2 col-md-2 col-form-label">訂單編號</label>
           <div class="col-md-6">
-            <input type="text" class="form-control" name="a_sub_title" id="a_sub_title" value="<?php echo $a_sub_title ?>">
+            <input type="text" class="form-control" name="o_id" id="o_id" value="<?php echo $o_id ?>">
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="a_title" class="offset-md-2 col-md-2 col-form-label">標題</label>
+          <label for="m_id" class="offset-md-2 col-md-2 col-form-label">會員編號</label>
           <div class="col-md-6">
-            <input type="text" class="form-control" name="a_title" id="a_title" value="<?php echo $a_title ?>">
+            <input type="text" class="form-control" name="m_id" id="m_id" value="<?php echo $m_id ?>">
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="a_content" class="offset-md-2 col-md-2 col-form-label">內文</label>
+          <label for="o_detail" class="offset-md-2 col-md-2 col-form-label">訂單細節</label>
           <div class="col-md-6">
-            <textarea class="form-control" name="a_content" id="a_content" cols="50" rows="3"><?php echo $a_content ?></textarea>
+            <textarea class="form-control" name="o_detail" id="o_detail" cols="50" rows="3"><?php echo $o_detail ?></textarea>
           </div>
         </div>
-        <!-- file -->
+        
         <div class="mb-3 row">
-          <label for="a_img" class="offset-md-2 col-md-2 col-form-label">圖片</label>
+          <label for="o_total" class="offset-md-2 col-md-2 col-form-label">訂單總價</label>
           <div class="col-md-6">
-            <input type="file" class="form-control" name="a_img" id="a_img" accept="image/*">
-            <?php if ($a_img_old) { ?>
-              <img style="height: 20px;" src="./photo/index/<?php echo $a_img_old ?>">
-            <?php echo $a_img_old;
-            } else { ?>
-            <?php echo "尚無圖檔";
-            } ?>
+            <textarea class="form-control" name="o_total" id="o_total" cols="50" rows="3"><?php echo $o_total ?></textarea>
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="a_text_style" class="offset-md-2 col-md-2 col-form-label">文字樣式</label>
+          <label for="o_trade_date" class="offset-md-2 col-md-2 col-form-label">訂單交易時間</label>
           <div class="col-md-6">
-            <textarea class="form-control" name="a_text_style" id="a_text_style" cols="50" rows="3"><?php echo $a_text_style ?></textarea>
+            <input type="date" class="form-control" name="o_trade_date" id="o_trade_date" value="<?php echo $o_trade_date ?>">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="o_pay_date" class="offset-md-2 col-md-2 col-form-label">訂單付款時間</label>
+          <div class="col-md-6">
+            <input type="date" class="form-control" name="o_pay_date" id="o_pay_date" value="<?php echo $o_pay_date ?>">
           </div>
         </div>
         <br>
         <div class="mb-3 row">
           <div class="offset-md-3 col-md-6 text-center">
             <input type="hidden" name="action" value="edit">
-            <input type="hidden" name="a_id" value="<?php echo $a_id ?>">
-            <input type="hidden" name="a_img_old" value="<?php echo $a_img_old ?>">
+            <input type="hidden" name="o_id" value="<?php echo $o_id ?>">
             <button class="btn btn-dark mx-4" type="submit">確定更新</button>
             <a href="./manage_orders.php" class="btn btn-secondary mx-4">返　　回</a>
           </div>
