@@ -3,33 +3,12 @@ include('./ECPay.Payment.Integration.php');
 
 $obj = new ECPay_AllInOne();
 
-/*
+/**/
 //可以試著先印出接受到的POST中所有的資訊來查看
 print_r($_POST, true);
-*/
 
-// 寫進DB
-include("./conn/connMysql.php");
 
-$sql_query = "INSERT INTO orders (o_id, m_id, o_detail, o_total, o_trade_date, o_pay_date) 
-    VALUES (?, ?, ?, ?, ?, ?)";
-// 用prepare方法將預備語法化為stmt物件
-$stmt = $db_link->prepare($sql_query);
 
-$post_data = print_r($_POST, true);
-// 用bind_param方法綁定變數為預備語法中的參數
-$stmt->bind_param(
-  "ssssss",
-  $_POST['MerchantTradeNo'],
-  $_POST['RtnCode'],
-  $post_data,
-  $_POST['TradeAmt'],
-  $_POST['TradeDate'],
-  $_POST['TradeDate']
-);
-$stmt->execute();
-$stmt->close();
-$db_link->close();
 
 // 加入參數(測試版)
 $arParameters = $_POST;
@@ -44,9 +23,29 @@ $CheckMacValue = ECPay_CheckMacValue::generate($arParameters, $ECPay_HashKey, $E
 //比對傳來的POST中的驗證碼與這邊剛計算出來的驗證碼是否相同，相同才進行後續處理，若不同，則表示這份POST可能是偽造的，或是錯誤的交易紀錄
 if ($_POST['RtnCode'] == '1' && $CheckMacValue == $_POST['CheckMacValue']) {
 
-  /*
-  自己的處理邏輯、連資料庫等等動作
-  */
+  //...自己的處理邏輯、連資料庫等等動作...
+  // 寫進DB
+  include("./conn/connMysql.php");
+
+  $sql_query = "INSERT INTO orders (o_id, m_id, o_detail, o_total, o_trade_date, o_pay_date) 
+    VALUES (?, ?, ?, ?, ?, ?)";
+  // 用prepare方法將預備語法化為stmt物件
+  $stmt = $db_link->prepare($sql_query);
+
+  $post_data = print_r($_POST, true);
+  // 用bind_param方法綁定變數為預備語法中的參數
+  $stmt->bind_param(
+    "ssssss",
+    $_POST['MerchantTradeNo'],
+    $_POST['RtnCode'],
+    $post_data,
+    $_POST['TradeAmt'],
+    $_POST['TradeDate'],
+    $_POST['TradeDate']
+  );
+  $stmt->execute();
+  $stmt->close();
+  $db_link->close();
 
   //最後一定要回傳這一行，告知綠界說：「我的商店網站確實有收到綠界的通知了！」才算完成。
   echo '1|OK';
@@ -82,7 +81,7 @@ if ($_POST['RtnCode'] == '1' && $CheckMacValue == $_POST['CheckMacValue']) {
 
 
 <body>
-<?php print_r("交易內容".$_POST); ?>
+  <?php print_r("交易內容" . $_POST); ?>
 </body>
 
 </html>

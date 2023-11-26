@@ -2,6 +2,9 @@
 include('./ECPay.Payment.Integration.php');
 $obj = new ECPay_AllInOne();
 
+print_r($_POST, true);
+print_r("check success 1");
+
 // 寫進DB
 include("./conn/connMysql.php");
 
@@ -26,7 +29,7 @@ $arParameters = $_POST;
 $ECPay_MerchantID = "2000132";
 $ECPay_HashKey = "5294y06JbISpM5x9";
 $ECPay_HashIV = "v77hoKGq4kWxNNIS";
- 
+
 //進行驗證碼檢查，將POST陣列, HashKey, HashIV, 以及當初設定的加密方式($obj->EncryptType = "1";)作為參數，
 //傳給 ECPay_CheckMacValue::generate 來產生驗證碼
 $CheckMacValue = ECPay_CheckMacValue::generate($arParameters, $ECPay_HashKey, $ECPay_HashIV, 1);
@@ -34,17 +37,20 @@ $CheckMacValue = ECPay_CheckMacValue::generate($arParameters, $ECPay_HashKey, $E
 //比對傳來的POST中的驗證碼與這邊剛計算出來的驗證碼是否相同，相同才進行後續處理，若不同，則表示這份POST可能是偽造的，或是錯誤的交易紀錄
 if ($_POST['RtnCode'] == '1' && $CheckMacValue == $_POST['CheckMacValue']) {
 
-  /*
-  自己的處理邏輯、連資料庫等等動作
-  */
+
+  //...自己的處理邏輯、連資料庫等等動作...
+
+  //可以試著先印出接受到的POST中所有的資訊來查看
+  print_r($_POST, true);
+  print_r("check success 2");
 
   //最後一定要回傳這一行，告知綠界說：「我的商店網站確實有收到綠界的通知了！」才算完成。
   echo '1|OK';
   // header("Location:./manage_orders.php");
+}else {
+  print_r("check fail 2");
 }
-
-
-// 中間有時候會加一些while跑資料顯示
+print_r("check success 3");
 $stmt->execute();
 $stmt->close();
 $db_link->close();
@@ -81,14 +87,14 @@ $db_link->close();
   <div class="container rounded-4">
 
     <div class="text-center">
-      <h4>您已成功完成交易</h4>
+      <h4>您已成功完成交易!</h4>
     </div>
 
     <?php
     $post_data2 = print_r($_POST, true);
     echo $post_data2;
     ?>
-    
+
     <br><br>
     <hr>
     <br><br>
