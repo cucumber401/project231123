@@ -93,13 +93,13 @@ if (isset($_POST["action"]) && $_POST["action"] == "add") {
         <div class="mb-3 row">
           <label for="o_trade_date" class="offset-md-2 col-md-2 col-form-label">交易時間</label>
           <div class="col-md-6">
-            <input type="date" class="form-control" name="o_trade_date" id="o_trade_date">
+            <input type="datetime-local" class="form-control" name="o_trade_date" id="o_trade_date">
           </div>
         </div>
         <div class="mb-3 row">
           <label for="o_pay_date" class="offset-md-2 col-md-2 col-form-label">付款時間</label>
           <div class="col-md-6">
-            <input type="date" class="form-control" name="o_pay_date" id="o_pay_date">
+            <input type="datetime-local" class="form-control" name="o_pay_date" id="o_pay_date">
           </div>
         </div>
 
