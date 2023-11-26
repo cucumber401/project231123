@@ -29,9 +29,9 @@ try {
 
   //(測試)基本參數(請依系統規劃自行調整)
   $MerchantTradeNo = "Test" . time() . "n" . str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT); // [訂單編號]+[一組n碼]不重覆編號 = 生成[廠商交易編號]
-  $obj->Send['ReturnURL']         = "http://yuna.lovestoblog.com/pay_receive.php"; // 付款完成通知回傳的網址(後端，頁面B)
-  $obj->Send['OrderResultURL']    = "http://yuna.lovestoblog.com/pay_success.php"; // 付款完成後客戶會被導回此頁面(前端，頁面C)
-  $obj->Send['ClientBackURL']     = "http://yuna.lovestoblog.com/"; // 提供Client端返回特店的按鈕連結(頁面D)
+  $obj->Send['ReturnURL']         = "https://yuna.lovestoblog.com/pay_receive.php"; // 付款完成通知回傳的網址(後端，頁面B)
+  $obj->Send['OrderResultURL']    = "https://yuna.lovestoblog.com/pay_success.php"; // 付款完成後客戶會被導回此頁面(前端，頁面C)
+  $obj->Send['ClientBackURL']     = "https://yuna.lovestoblog.com/"; // 提供Client端返回特店的按鈕連結(頁面D)
   $obj->Send['MerchantTradeNo']   = $MerchantTradeNo; //訂單編號
   $obj->Send['MerchantTradeDate'] = date('Y/m/d H:i:s'); //交易時間
   $obj->Send['TotalAmount']       = $cartTotal; //交易總金額
