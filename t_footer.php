@@ -53,7 +53,7 @@
   <div class="container pt-5 pb-3">
     <div class="row">
       <div class="col">
-        <h3>XiaoMi.</h3>
+        <h3 style="font-family: 'Merienda', cursive;">YUNA.</h3>
       </div>
       <div class="col">
         <p class="footerTitle">產品分類</p>
@@ -121,7 +121,7 @@
 <div class="container-fluid bg-black d-block d-lg-none">
   <br>
   <div class="text-center footerTitle-sm">
-    <img style="width: 6%;" src="./photo/LOGO_YUNA.PNG">
+    <img style="width: 6%; margin-bottom: 12px;" src="./photo/LOGO_YUNA.PNG">
     <h3><strong>在 YUNA Store 選購的理由</strong></h3>
     <p>回饋訂單實付金額 1% 的 Y幣，下次購物時可用於折抵同等貨幣單位的訂單金額。</p>
     <button class="btn btn-dark rounded-pill">了解更多</button>
