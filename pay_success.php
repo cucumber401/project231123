@@ -1,4 +1,40 @@
 <?php
+//可以試著先印出接受到的POST中所有的資訊來查看
+print_r($_POST, true);
+var_dump($_POST);
+// 記錄接收到的 POST 數據
+error_log(print_r($_POST, true));
+
+// 檢查必需的 POST 參數是否存在
+$requiredParams = ['MerchantID', 'RtnCode', 'CheckMacValue', 'TradeAmt', 'TradeDate'];
+foreach ($requiredParams as $param) {
+  if (!isset($_POST[$param])) {
+    die('Missing required parameter: ' . $param);
+  }
+}
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+use Ecpay\Sdk\Factories\Factory;
+use Ecpay\Sdk\Response\VerifiedArrayResponse;
+
+require __DIR__ . '/vendor/autoload.php';
+
+try {
+  $factory = new Factory([
+    'hashKey' => '5294y06JbISpM5x9',
+    'hashIv' => 'v77hoKGq4kWxNNIS',
+  ]);
+  $checkoutResponse = $factory->create(VerifiedArrayResponse::class);
+
+  var_dump($checkoutResponse->get($_POST));
+} catch (Exception $e) {
+  echo 'Caught exception: ' . $e->getMessage();
+}
+
+
+/*
 include('./ECPay.Payment.Integration.php');
 $obj = new ECPay_AllInOne();
 
@@ -54,6 +90,7 @@ print_r("check success 3");
 $stmt->execute();
 $stmt->close();
 $db_link->close();
+*/
 
 ?>
 <!doctype html>
@@ -91,6 +128,7 @@ $db_link->close();
     </div>
 
     <?php
+    print_r("交易內容" . $_POST);
     $post_data2 = print_r($_POST, true);
     echo $post_data2;
     ?>

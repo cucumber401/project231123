@@ -1,9 +1,80 @@
 <?php
-// 獲取URL中的參數值
-if (isset($_POST['productInfoArray'])) {
-  $cartTotal = $_POST['carttotal'];
-  $productInfoArray = $_POST['productInfoArray'];
+/*
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+*/
+// 引入 ECPay SDK 相關的namespace和類別
+use Ecpay\Sdk\Factories\Factory;
+use Ecpay\Sdk\Services\UrlService;
+
+// Composer 產生的自動載入檔案，負責自動載入專案所使用的類別
+require __DIR__ . '/vendor/autoload.php';
+
+/*
+//可以試著先印出接受到的POST中所有的資訊來查看
+print_r($_POST, true);
+var_dump($_POST);
+// 記錄接收到的 POST 數據
+error_log(print_r($_POST, true));
+*/
+
+
+/**/
+try {
+  // 使用 ECPay SDK 創建訂單
+  $factory = new Factory([
+    'hashKey' => '5294y06JbISpM5x9',
+    'hashIv' => 'v77hoKGq4kWxNNIS',
+  ]);
+
+  $autoSubmitFormService = $factory->create('AutoSubmitFormWithCmvService');
+
+  // 獲取URL中的參數值
+  if (isset($_POST['productInfoArray'])) {
+    $cartTotal = $_POST['carttotal'];
+    $productInfoArray = $_POST['productInfoArray'];
+  }
+
+  // print_r($cartTotal);
+  // print_r($productInfoArray);
+
+  $ItemName = '';
+  for ($i = 1; $i < count($productInfoArray); $i++) {
+    //訂單的商品資料
+    $ItemName .= $productInfoArray[$i]['品名'] .' ';
+    $ItemName .= '$'.preg_replace('/[^[:digit:]]/', '', $productInfoArray[$i]['單價']) ;
+    $ItemName .= ' * '.$productInfoArray[$i]['數量'];
+    if($i < count($productInfoArray)-1){
+      $ItemName .= ', ';
+    }
+  }
+
+/**/
+  $input = [
+    'MerchantID' => '2000132',
+    'MerchantTradeNo' => 'Test' . time(),
+    'MerchantTradeDate' => date('Y/m/d H:i:s'),
+    'PaymentType' => 'aio',
+    'TotalAmount' => $cartTotal,
+    'TradeDesc' => UrlService::ecpayUrlEncode('交易描述範例'),
+    'ItemName' => $ItemName,
+    'ChoosePayment' => 'Credit',
+    'EncryptType' => 1,
+
+    'ReturnURL' => 'https://yuna.lovestoblog.com/pay_receive.php',
+    'ClientBackURL' => 'https://yuna.lovestoblog.com/',
+    // 'OrderResultURL' => 'https://yuna.lovestoblog.com/pay_success.php',
+
+  ];
+  $action = 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5';
+
+  echo $autoSubmitFormService->generate($input, $action);
+  
+} catch (Exception $e) {
+  echo 'Caught exception: ' . $e->getMessage();
 }
+
+
 // $productInfoArray 結構說明
 // Array ( 
 //   [0] => Array ( [品名] => [單價] => [數量] => [小計] => ) 
@@ -11,15 +82,14 @@ if (isset($_POST['productInfoArray'])) {
 //   [2] => Array ( [品名] => 智能空拍機 [單價] => 800 [數量] => 2 [小計] => 1600 ) 
 //   )
 
-$my_TradeDesc = "測試交易描述";
 
+/*
 //載入SDK(路徑可依系統規劃自行調整)
 include('./ECPay.Payment.Integration.php');
 try {
 
   $obj = new ECPay_AllInOne();
 
-  /* 測試 */
   //(測試)服務參數
   $obj->ServiceURL  = "https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5";   //服務位置(測試環境)
   $obj->HashKey     = '5294y06JbISpM5x9';  //測試用Hashkey，請自行帶入ECPay提供的HashKey                                    
@@ -61,6 +131,7 @@ try {
 } catch (Exception $e) {
   echo $e->getMessage();
 }
+*/
 ?>
 
 <!doctype html>

@@ -1,15 +1,50 @@
 <?php
+/*
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// 記錄接收到的 POST 數據
+error_log(print_r($_POST, true));
+
+// 檢查必需的 POST 參數是否存在
+$requiredParams = ['MerchantID', 'RtnCode', 'CheckMacValue', 'TradeAmt', 'TradeDate'];
+foreach ($requiredParams as $param) {
+  if (!isset($_POST[$param])) {
+    die('Missing required parameter: ' . $param);
+  }
+}
+*/
+use Ecpay\Sdk\Factories\Factory;
+use Ecpay\Sdk\Response\VerifiedArrayResponse;
+
+require __DIR__ . '/vendor/autoload.php';
+
+try {
+  $factory = new Factory([
+    'hashKey' => '5294y06JbISpM5x9',
+    'hashIv' => 'v77hoKGq4kWxNNIS',
+  ]);
+  $checkoutResponse = $factory->create(VerifiedArrayResponse::class);
+
+  var_dump($checkoutResponse->get($_POST));
+
+  //最後一定要回傳這一行，告知綠界說：「我的商店網站確實有收到綠界的通知了！」才算完成。
+  echo '1|OK';
+} catch (Exception $e) {
+  echo 'Caught exception: ' . $e->getMessage();
+}
+/*
 include('./ECPay.Payment.Integration.php');
-
 $obj = new ECPay_AllInOne();
+*/
 
-/**/
+
 //可以試著先印出接受到的POST中所有的資訊來查看
 print_r($_POST, true);
 
 
 
-
+/*
 // 加入參數(測試版)
 $arParameters = $_POST;
 $ECPay_MerchantID = "2000132";
@@ -51,6 +86,7 @@ if ($_POST['RtnCode'] == '1' && $CheckMacValue == $_POST['CheckMacValue']) {
   echo '1|OK';
   header("Location:./manage_orders.php");
 }
+*/
 
 
 ?>
@@ -74,9 +110,6 @@ if ($_POST['RtnCode'] == '1' && $CheckMacValue == $_POST['CheckMacValue']) {
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/main.css">
 
-  <style>
-
-  </style>
 </head>
 
 
