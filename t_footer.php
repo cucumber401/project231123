@@ -100,7 +100,7 @@
       <div class="col">
         <p class="footerTitle">關於我們</p>
         <a href="" class="footerLink">
-          <p>關於小米</p>
+          <p>關於YUNA</p>
         </a>
         <a href="" class="footerLink">
           <p>聯絡方式</p>
@@ -121,9 +121,9 @@
 <div class="container-fluid bg-black d-block d-lg-none">
   <br>
   <div class="text-center footerTitle-sm">
-    <img style="width: 6%;" src="./photo/LOGO_dji_black.jpg">
-    <h3><strong>在 DJI Store 選購的理由</strong></h3>
-    <p>回饋訂單實付金額 1% 的 DJI 幣，下次購物時可用於折抵同等貨幣單位的訂單金額。</p>
+    <img style="width: 6%;" src="./photo/LOGO_YUNA.PNG">
+    <h3><strong>在 YUNA Store 選購的理由</strong></h3>
+    <p>回饋訂單實付金額 1% 的 Y幣，下次購物時可用於折抵同等貨幣單位的訂單金額。</p>
     <button class="btn btn-dark rounded-pill">了解更多</button>
   </div>
   <br>
@@ -203,7 +203,7 @@
       <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
         <div class="accordion-body">
           <a href="" class="footerLink-sm">
-            <p>關於小米</p>
+            <p>關於YUNA</p>
           </a>
           <a href="" class="footerLink-sm">
             <p>聯絡方式</p>

@@ -6,6 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/main.css">
 <!-- icon -->
 <link rel="icon" href="./favicon.ico" type="image/x-icon" />
@@ -24,6 +25,10 @@
     background-color: rgba(0, 0, 0, .8) !important;
   }
 
+  .navbar-brand {
+    font-family: 'Merienda', cursive;
+  }
+
   .navbar-brand:hover {
     text-decoration: none;
   }
@@ -36,7 +41,7 @@
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
         <!-- 左區 -->
-        <a class="navbar-brand" href="./index.php">XiaoMi.</a>
+        <a class="navbar-brand" href="./index.php">YUNA.</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
