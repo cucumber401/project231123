@@ -14,6 +14,7 @@ $result = $db_link->query($sql_query);
   <title>手機</title>
 
   <script src="./js/bootstrap.bundle.min.js"></script>
+  <script src="./js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/278435b38a.js" crossorigin="anonymous"></script>
   <!-- style -->
@@ -68,11 +69,16 @@ $result = $db_link->query($sql_query);
     </button>
   </div>
   <!-- Carousel 1 end -->
+  
+  <!-- goTop按鈕 -->
+  <div class="btnGoTop fixed-bottom d-flex justify-content-end p-3">
+    <i onclick="goTop()" class="fa-sharp fa-solid fa-circle-chevron-up" style="color: gray; font-size: 54px; cursor: pointer;"></i>
+  </div>
 
   <br><br><br>
-  <!-- <br><br><br><br><br><br> -->
 
   <div class="container">
+
     <div class="row">
       <?php while ($i_result = $result->fetch_assoc()) { ?>
         <div class="col-lg-4 col-md-6 my-2">
@@ -131,7 +137,6 @@ $result = $db_link->query($sql_query);
 
 
   <script>
-
     function checkPro_on() {
       $(event.target).closest('.pic').find('.btnMore').css("visibility", "visible");
     }
@@ -139,7 +144,6 @@ $result = $db_link->query($sql_query);
     function checkPro_off() {
       $(event.target).closest('.pic').find('.btnMore').css("visibility", "hidden");
     }
-    
   </script>
 </body>
 

@@ -22,6 +22,7 @@ $result = $db_link->query($sql_query);
   <title>商品詳情</title>
 
   <script src="./js/bootstrap.bundle.min.js"></script>
+  <script src="./js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/278435b38a.js" crossorigin="anonymous"></script>
   <!-- style -->
@@ -108,6 +109,7 @@ $result = $db_link->query($sql_query);
       color: black;
     }
 
+    
   </style>
 </head>
 
@@ -115,13 +117,18 @@ $result = $db_link->query($sql_query);
 <body>
   <?php include('./t_navbar.php') ?>
 
+  <!-- goTop按鈕 -->
+  <div class="btnGoTop fixed-bottom d-flex justify-content-end p-3">
+    <i onclick="goTop()" class="fa-sharp fa-solid fa-circle-chevron-up" style="color: gray; font-size: 54px; cursor: pointer;"></i>
+  </div>
+
   <!-- 商品款式 -->
   <!-- md -->
-  <div class="conatainer justify-content-center">
+  <div class="container justify-content-center">
     <div class="row productDiv_pic align-items-center">
       <?php while ($i_result = $result->fetch_assoc()) { ?>
         <!-- 左 -->
-        <div class="col-6 offset-md-2 col-md-4">
+        <div class="col-6 offset-md-1 col-md-5">
           <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
             <div class="carousel-indicators">
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -152,7 +159,7 @@ $result = $db_link->query($sql_query);
           </div>
         </div>
         <!-- 右 -->
-        <div class="col-6 productDiv col-md-4 pt-lg-5">
+        <div class="col-6 productDiv col-md-4 pt-lg-5 offset-lg-1">
           <br>
           <p class="h2 productName"><?php echo $i_result['p_name'] ?></p>
           <p class="lead productPrice">$<?php echo $i_result['p_price'] ?></p>
@@ -175,14 +182,6 @@ $result = $db_link->query($sql_query);
           <p> 數量 : </p>
           <input class="productAmount mb-2" type="number" value="1">
           <button class="btn btn-dark add_cart">加入購物車</button>
-          <!-- <div class="row">
-            <div class="col-12 col-md-5 p-2">
-              <input class="productAmount" type="number" value="1">
-            </div>
-            <div class="col-12 col-md-7 ">
-              <button class="btn btn-dark add_cart">加入購物車</button>
-            </div>
-          </div> -->
         </div>
       <?php }; ?>
     </div>
@@ -287,44 +286,92 @@ $result = $db_link->query($sql_query);
   <br><br><br>
   <div class="container my-3">
     <h4>最近瀏覽</h4>
-    <div class="row">
-      <div class="col-xl-3 col-sm-6 my-3">
-        <a href="./product.php?p_id=2">
-          <div class="shadow bg-body rounded-3 p-3 h-100">
-            <img class="w-100" src="./photo/pro_home/02.png">
-            <h4>智慧攝影機</h4>
-            <p class="lead">雲台版 2K Pro</p>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 my-2">
+          <div class="card pic h-100">
+            <div class="card-body">
+              <h5 class="card-title text-truncate">智慧攝影機</h5>
+              <p class="card-text text-truncate">雲台版 2K Pro</p>
+              <div class="row align-items-center">
+                <p class="card-text">$1300</p>
+              </div>
+              <br>
+              <!-- 將參數添加到產品連結的URL -->
+              <div class="btnDIV position-relative">
+                <a href="./product.php?p_id=2">
+                  <img class="card-img-top" src="./photo/pro_home/02.png">
+                  <div class="position-absolute top-50 start-50 translate-middle btndiv">
+                    <button class="btn btn-outline-dark rounded-pill btnMore">查看更多 > </button>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
-        </a>
-      </div>
-      <div class="col-xl-3 col-sm-6 my-3">
-        <a href="./product.php?p_id=3">
-          <div class="shadow bg-body rounded-3 p-3 h-100">
-            <img class="w-100" src="./photo/pro_home/03.png">
-            <h4>智慧氣炸鍋</h4>
-            <p class="lead">少油又低脂，烹飪更健康</p>
+        </div>
+        <div class="col-lg-4 col-md-6 my-2">
+          <div class="card pic h-100">
+            <div class="card-body">
+              <h5 class="card-title text-truncate">Xiaomi 手環 7</h5>
+              <p class="card-text text-truncate">無懼挑戰</p>
+              <div class="row align-items-center">
+                <p class="card-text">$1500</p>
+              </div>
+              <br>
+              <!-- 將參數添加到產品連結的URL -->
+              <div class="btnDIV position-relative">
+                <a href="./product.php?p_id=10">
+                  <img class="card-img-top" src="./photo/pro_home/10.png">
+                  <div class="position-absolute top-50 start-50 translate-middle btndiv">
+                    <button class="btn btn-outline-dark rounded-pill btnMore">查看更多 > </button>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
-        </a>
-      </div>
-      <div class="col-xl-3 col-sm-6 my-3">
-        <a href="./product.php?p_id=4">
-          <div class="shadow bg-body rounded-3 p-3 h-100">
-            <img class="w-100" src="./photo/pro_home/04.png">
-            <h4>行動電源</h4>
-            <p class="lead">雙口輸入體驗更方便</p>
+        </div>
+        <div class="col-lg-4 col-md-6 my-2">
+          <div class="card pic h-100">
+            <div class="card-body">
+              <h5 class="card-title text-truncate">米家無線吸塵器G10</h5>
+              <p class="card-text text-truncate">性能加倍，繁瑣減半</p>
+              <div class="row align-items-center">
+                <p class="card-text">$6500</p>
+              </div>
+              <br>
+              <!-- 將參數添加到產品連結的URL -->
+              <div class="btnDIV position-relative">
+                <a href="./product.php?p_id=12">
+                  <img class="card-img-top" src="./photo/pro_home/12.png">
+                  <div class="position-absolute top-50 start-50 translate-middle btndiv">
+                    <button class="btn btn-outline-dark rounded-pill btnMore">查看更多 > </button>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
-        </a>
-      </div>
-      <div class="col-xl-3 col-sm-6 my-3">
-        <a href="./product.php?p_id=1">
-          <div class="shadow bg-body rounded-3 p-3 h-100">
-            <img class="w-100" src="./photo/pro_home/01.jpg">
-            <h4>掃拖機器人</h4>
-            <p class="lead">智慧清潔，得心應手</p>
+        </div>
+        <div class="col-lg-4 col-md-6 my-2">
+          <div class="card pic h-100">
+            <div class="card-body">
+              <h5 class="card-title text-truncate">智慧氣炸鍋</h5>
+              <p class="card-text text-truncate">少油又低脂，烹飪更健康</p>
+              <div class="row align-items-center">
+                <p class="card-text">$2000</p>
+              </div>
+              <br>
+              <!-- 將參數添加到產品連結的URL -->
+              <div class="btnDIV position-relative">
+                <a href="./product.php?p_id=3">
+                  <img class="card-img-top" src="./photo/pro_home/03.png">
+                  <div class="position-absolute top-50 start-50 translate-middle btndiv">
+                    <button class="btn btn-outline-dark rounded-pill btnMore">查看更多 > </button>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
-        </a>
+        </div>
       </div>
-    </div>
   </div>
   <!-- 最近瀏覽end -->
 

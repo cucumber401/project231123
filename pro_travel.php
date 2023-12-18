@@ -14,6 +14,7 @@ $result = $db_link->query($sql_query);
   <title>旅行/其他</title>
 
   <script src="./js/bootstrap.bundle.min.js"></script>
+  <script src="./js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/278435b38a.js" crossorigin="anonymous"></script>
   <!-- style -->
@@ -40,6 +41,11 @@ $result = $db_link->query($sql_query);
 <body>
   <?php include('./t_navbar.php') ?>
 
+  <!-- goTop按鈕 -->
+  <div class="btnGoTop fixed-bottom d-flex justify-content-end p-3">
+    <i onclick="goTop()" class="fa-sharp fa-solid fa-circle-chevron-up" style="color: gray; font-size: 54px; cursor: pointer;"></i>
+  </div>
+  
   <!-- Carousel 1 start -->
   <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
